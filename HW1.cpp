@@ -1,9 +1,12 @@
 include <stdio.h>
 
 #define maxStates 25
-void createDFA();
-void loadDFA();
-void runDFA(struct automaton DFA);
+#define maxTransitions 100
+int createDFA();
+int loadDFA();
+int runDFA(struct automaton DFA);
+char readDFA (FILE*, int*); 
+
 
 struct automaton {
 	struct state startState;
@@ -27,63 +30,113 @@ struct transition {
 
 int main() {
 	int choice, done = 0;
-	
+	char fileName[20];
 	while (done == 0){
-		printf("Please select: 1 Create a new DFA, 2 Load saved DFA")
+		printf("Please select: 1 Create a new DFA, 2 Load saved DFA");
 		choice = getchar();
-		if (choice == '1') then {
+		if (choice == '1') {
 			//function for file creation
-			createDFA();
+			if (createDFA() == 0) {
 			return 0;
 			done = 1;
+			}
+			else{
+			printf("Error in createDFA");
+			return -1;
+			}
 		}
-		else if(choice == '2') then {
+		else if(choice == '2') {
 			//function for DFA loading from file
-			loadDFA();
+			printf("please enter the filename of the DFA to load.")
+			scanf("%s",fileName);
+			strcat(fileName, ".txt");
+			if(loadDFA(fileName) == 0) {
 			return 0;
 			done = 1;
+			}
+			else{
+			printf("Error in loadDFA");
+			return -1;
+		}
 		}
 		else{
-			printf("Not a valid select please try again.")
+			printf("Not a valid select please try again.");
 			done = 0;
 		}
 	}
 	return -1;
 }
 
-void createDFA() {
-	char stringNum[3];
+int createDFA() {
+	char fileName[20];
+	fileName = "../";
+	char inputValue[3];
+	char fileOutput[400];
+	int i = 0;
 	ThisAutomata = new automaton
-	sprintf(stringNum, "%f", maxStates);
-	printf("Please imput your state list in the following format: d,d,d,d,d (max " + stringNum + " states)")
+	printf("Please imput your state list in the following format: ddddd (max 25 states)");
+	scanf("%c", ThisAutomata.states);
+//TODO: error check to see if included in states
+	printf("Please input your start state now:");
+	scanf("%c", ThisAutomata.startState);
+//TODO: error check to see if included in states	
+	printf("Please input your end state now:");
+	scanf("%c", ThisAutomata.endState);
+	printf("Please input your transition stages in the format (startstate,tigger,endstate) enter XXX to finished transition creation.");
 	
-	scanf(%)
+	while (scanf("%s", inputValue) != "XXX" && i < 100){
+		ThisAutomata.transitions[i].Fromstate = inputValue[0];
+		ThisAutomata.transitions[i].trigger = inputValue[1];
+		ThisAutomata.transitions[i].Nextstate = inputValue[2];
+		i++;
+		if (i < 100)
+		printf("Please input your transition stages in the format (startstate,tigger,endstate) enter XXX to finished transition creation.");
+		else
+		printf("Transitions are full, no more may be entered.");
+	}
+//TODO:Error check the char input for states so they match that they are a type or specific character
+	printf("Please enter the filename for this dfa to be saved.");
+	scanf("%s", fileName);
+	strcat(fileName, ".txt");
 	
-	printf("Please input your start state now:")
-	scanf("%c", ThisAutomata.startState)
+	outfile = fopen (fileName, "w");
+	if (outfile == NULL){
+		prinf("Error LN 102.")
+		return -1;
+	}
+	
+	fileOutput = 
+	
+	
+	
+	
+	fprintf(outfile, "%s", fileOutput)
+	fclose(outfile);
+	printf("Save Worked!");
+	
+	loadDFA(fileName);	
 }
 
-void loadDFA() {
-	infile = fopen ("../data.txt", "r");
+int loadDFA(char *fileName[20]]) {
+	infile = fopen (fileName, "r");
 	if (inData != NULL) {
-    while ( readNum(inData, &num) != EOF ) {
+    while ( readDFA(inData, &num) != EOF ) {
       count++
 
-      printf ("Num %d is %d\n", count, num);
-      fprintf (outData, "Num %d is %d\n", count, num);
+      
     }
 }
 
 int readDFA (FILE *inData, int *numPtr) {    
-  int result;
+  char result;
 
-  result = fscanf (inData, "%d", numPtr);
+  result = fscanf (inData, "%c", numPtr);
 
   return result; 
 }
 
 
-void runDFA() {
+int runDFA() {
 	while 
 }
 
